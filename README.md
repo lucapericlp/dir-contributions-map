@@ -26,6 +26,7 @@ implementation simplicity & avoiding storage costs. This might not make sense
 for some usecases. Tracked for future development (see [TDL](#To Do List)).
 
 ## Flow
+- `rclone` remote config setup
 - `rclone` to quickly support [many](https://rclone.org/overview/) remote
   storage solutions & normalize to a singular local interface
     - [Pre-compiled](https://docs.rs/librclone/latest/librclone/) into the Rust binary

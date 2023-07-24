@@ -1,12 +1,37 @@
 use librclone;
+use serde_json;
+use tempfile;
 
 pub fn start() -> bool{
     librclone::initialize();
     true
 }
 
-pub fn run(method: String, input: String) -> Result<String, String>{
+pub fn run(method: &str, input: &str) -> Result<String, String>{
     librclone::rpc(method, input)
+}
+
+pub fn list() -> Result<String, String>{
+    let method = String::from("operations/list");
+    let input = serde_json::json!(
+        {
+            "fs": "lp-lucaperic:",
+            "remote": "knowledge-garden"
+        }
+    );
+    run(&method, &input.to_string())
+}
+
+pub fn copy() -> Result<String, String>{
+    let method = String::from("sync/copy");
+    let tmp_dir = tempfile::tempdir();
+    let input = serde_json::json!(
+        {
+            "srcFs": "lp-lucaperic:",
+            "dstFs": "knowledge-garden"
+        }
+    );
+    run(&method, &input.to_string())
 }
 
 #[test]
