@@ -2,6 +2,5 @@ mod rclone;
 
 fn main() {
     rclone::defaults::start();
-    let _ = rclone::defaults::copy().unwrap();
-    println!("Completed!")
+    let tmp_dir_path = rclone::defaults::copy().unwrap();
 }

@@ -4,6 +4,7 @@ use tempfile;
 
 pub fn start() -> bool{
     librclone::initialize();
+    println!("rclone initialized successfully!");
     true
 }
 
@@ -35,8 +36,9 @@ pub fn copy() -> Result<String, String>{
             }
         }
     );
-    println!("{}", tmp_dir_path);
-    run(&method, &input.to_string())
+    run(&method, &input.to_string())?;
+    println!("Copied successfully into {}!", tmp_dir_path);
+    Ok(tmp_dir_path.to_string())
 }
 
 #[test]
