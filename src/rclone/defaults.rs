@@ -5,6 +5,10 @@ pub fn start() -> bool{
     true
 }
 
+pub fn run(method: String, input: String) -> Result<String, String>{
+    librclone::rpc(method, input)
+}
+
 #[test]
 fn test_lib_init(){
     let result = start();
