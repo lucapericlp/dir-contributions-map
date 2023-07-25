@@ -6,6 +6,7 @@ fn main() {
     if state_file.exists() {
         let state = state_file.build_state();
     } else {
+        state_file.touch();
         let state: state::State = Default::default();
     }
 

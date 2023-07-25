@@ -1,4 +1,4 @@
-use std::{path, fs};
+use std::{path, fs::{self, OpenOptions}};
 use chrono;
 use serde;
 
@@ -23,7 +23,20 @@ impl StateFile {
     pub fn exists(&self) -> bool {
         match self {
             StateFile::Local(path) => path::Path::new(path).exists(),
+            // TODO: Remote impl
             StateFile::Remote(path) => path::Path::new(path).exists(),
+        }
+    }
+
+    pub fn touch(&self) -> () {
+        match self {
+            StateFile::Local(path) => {
+                OpenOptions::new().create(true).write(true).open(path).unwrap();
+            },
+            // TODO: Remote impl
+            StateFile::Remote(path) => {
+                OpenOptions::new().create(true).write(true).open(path).unwrap();
+            }
         }
     }
 
@@ -36,6 +49,7 @@ impl StateFile {
                     .expect("file should be proper JSON");
                 state
             }
+            // TODO: Remote impl
             StateFile::Remote(_) => State{entries: Vec::new()}
         }
     }
