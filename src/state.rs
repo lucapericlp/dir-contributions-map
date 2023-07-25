@@ -14,6 +14,15 @@ pub struct State {
     entries: Vec<DateMetadata>
 }
 
+pub fn build_statefile(path: String) -> StateFile {
+    // TODO: replace this logic, we will want to use rclone to copy down
+    // any remote paths
+    match &path[..2] {
+      "s3"  => StateFile::Remote(path),
+      _     => StateFile::Local(path)
+    }
+}
+
 pub enum StateFile {
     Local(String),
     Remote(String)

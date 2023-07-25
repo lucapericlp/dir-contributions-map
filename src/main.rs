@@ -2,7 +2,7 @@ mod rclone;
 mod state;
 
 fn main() {
-    let state_file = state::StateFile::Local("./state_file.json".to_string());
+    let state_file = state::build_statefile("./state_file.json".to_string());
     if state_file.exists() {
         let state = state_file.build_state();
     } else {
