@@ -15,11 +15,11 @@ pub struct State {
 }
 
 pub fn build_statefile(path: String) -> StateFile {
-    // TODO: replace this logic, we will want to use rclone to copy down
-    // any remote paths
-    match &path[..2] {
-      "s3"  => StateFile::Remote(path),
-      _     => StateFile::Local(path)
+    // assumption: rclone paths will have to be defined with : while
+    // local paths will not
+    match path.contains(":") {
+      true  => StateFile::Remote(path),
+      false => StateFile::Local(path)
     }
 }
 
