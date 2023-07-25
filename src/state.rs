@@ -3,10 +3,13 @@ use chrono;
 use serde;
 
 #[derive(serde::Serialize, serde::Deserialize)]
-struct DateMetadata {
-    date: chrono::DateTime<chrono::Utc>,
-    updates: i8,
-    creations: i8
+pub struct DateMetadata {
+    pub date: chrono::naive::NaiveDate,
+    // store aggregate counters vs Vec<String> of files that
+    // were either modified or created as we can't easily have unique
+    // identifiers across file renames for files in the directory
+    pub updates: i8,
+    pub creations: i8
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Default)]
@@ -49,7 +52,7 @@ impl StateFile {
         }
     }
 
-    pub fn build_state(&self) -> State {
+    pub fn load_state(&self) -> State {
         match self {
             StateFile::Local(path) => {
                 let file = fs::File::open(path)
