@@ -4,7 +4,7 @@ mod collect;
 
 fn main() {
     let user_state_file = "./state_file.json";
-    let source = "lp-lucaperic:knowledge-garden";
+    let source = "lp-lucaperic:knowledge-garden/node_modules/";
 
     let state_file = state::build_statefile(user_state_file.to_string());
     if state_file.exists() {
@@ -15,6 +15,8 @@ fn main() {
     }
 
     rclone::defaults::start();
-    let copied_source_dir = rclone::defaults::copy(source, None).unwrap();
-    let day_stats = collect::get_recent_stats(&copied_source_dir);
+    let tmp_dir = tempfile::tempdir().unwrap()
+        .path().to_str().unwrap().to_string();
+    rclone::defaults::copy(source, &tmp_dir).unwrap();
+    let day_stats = collect::get_recent_stats(&tmp_dir);
 }

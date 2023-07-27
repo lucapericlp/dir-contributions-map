@@ -23,27 +23,20 @@ pub fn list() -> Result<String, String>{
     run(&method, &input.to_string())
 }
 
-fn tmp_dir() -> String {
-    let tmp_dir = tempfile::tempdir().unwrap();
-    tmp_dir.path().to_str().unwrap().to_string()
-}
-
-pub fn copy(src: &str, dst: Option<&str>) -> Result<String, String>{
+pub fn copy(src: &str, dst: &str) -> Result<String, String>{
     let method = String::from("sync/copy");
-    let tmp = tmp_dir();
-    let dst_path = dst.unwrap_or(&tmp);
     let input = serde_json::json!(
         {
             "srcFs": src,
-            "dstFs": dst_path,
+            "dstFs": dst,
             "_filter": {
                 "IncludeRule": ["**/*.md", "*.md"],
             }
         }
     );
     run(&method, &input.to_string())?;
-    println!("Copied successfully into {}!", dst_path);
-    Ok(dst_path.to_string())
+    println!("Copied successfully into {}!", dst);
+    Ok(dst.to_string())
 }
 
 #[test]
