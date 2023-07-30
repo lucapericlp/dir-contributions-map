@@ -1,10 +1,9 @@
-use std::{path, fs::{self, OpenOptions}, io};
+use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap}};
 use chrono;
 use serde;
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct DateMetadata {
-    pub date: chrono::naive::NaiveDate,
     // store aggregate counters vs Vec<String> of files that
     // were either modified or created as we can't easily have unique
     // identifiers across file renames for files in the directory
@@ -14,10 +13,10 @@ pub struct DateMetadata {
 
 #[derive(serde::Serialize, serde::Deserialize, Default)]
 pub struct State {
-    entries: Vec<DateMetadata>
+    pub entries: BTreeMap<chrono::naive::NaiveDate, DateMetadata>
 }
 
-pub fn build_statefile(path: String) -> StateFile {
+pub fn determine_statefile(path: String) -> StateFile {
     // assumption: rclone paths will have to be defined with : while
     // local paths will not
     match path.contains(":") {
@@ -45,7 +44,7 @@ impl StateFile {
             StateFile::Local(path) => {
                 let file = OpenOptions::new().create(true).write(true).open(path).unwrap();
                 let default: State = Default::default();
-                serde_json::to_writer_pretty(&file, &default);
+                serde_json::to_writer_pretty(&file, &default)?;
                 Ok(())
             },
             // TODO: Remote impl
@@ -66,7 +65,7 @@ impl StateFile {
                 state
             }
             // TODO: Remote impl
-            StateFile::Remote(_) => State{entries: Vec::new()}
+            StateFile::Remote(_) => State{entries: BTreeMap::new()}
         }
     }
 }

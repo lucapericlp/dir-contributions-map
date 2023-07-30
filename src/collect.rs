@@ -1,6 +1,7 @@
-use std::fs;
+use std::{fs, time::SystemTime};
 
-use crate::state::DateMetadata;
+use crate::state::{State, DateMetadata};
+use chrono::{NaiveDate, DateTime, Utc};
 use walkdir;
 
 fn is_relevant(entry: &walkdir::DirEntry, file_ext: &str) -> bool {
@@ -15,7 +16,7 @@ fn is_relevant(entry: &walkdir::DirEntry, file_ext: &str) -> bool {
     }
 }
 
-pub fn get_recent_stats(path: &str) -> DateMetadata {
+pub fn add_recent_stats(path: &str, state: &State) -> Result<(), ()>{
     let file_ext = ".md";
     let walker = walkdir::WalkDir::new(path).into_iter();
     for entry in walker.filter_entry(|e| is_relevant(e, file_ext)){
@@ -24,13 +25,19 @@ pub fn get_recent_stats(path: &str) -> DateMetadata {
             true => continue,
             false => {
                 let entry_path = _entry.path();
-                let last_modified = fs::metadata(entry_path).unwrap().modified();
+                let md = fs::metadata(entry_path).unwrap();
+                let dt_created: DateTime<Utc> = md.created().unwrap().into();
+                let dtn_created = dt_created.date_naive();
+                if state.entries.contains_key(&dtn_created){
+                     // test
+                }
+                md.modified();
+                state.entries.insert(key, value);
                 println!("{} last modified on {:?}", entry_path.display(), last_modified)
             }
         }
     }
     DateMetadata{
-        date: chrono::Utc::now().date_naive(),
         updates: 0,
         creations: 0,
     }

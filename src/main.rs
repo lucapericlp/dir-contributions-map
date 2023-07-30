@@ -6,11 +6,11 @@ fn main() {
     let user_state_file = "./state_file.json";
     let source = "lp-lucaperic:knowledge-garden/node_modules/";
 
-    let state_file = state::build_statefile(user_state_file.to_string());
+    let state_file = state::determine_statefile(user_state_file.to_string());
     if state_file.exists() {
         let state = state_file.load_state();
     } else {
-        state_file.touch();
+        state_file.touch().unwrap();
         let state: state::State = Default::default();
     }
 

@@ -1,5 +1,3 @@
-# dir-contributions-map
-
 A Github-like, Rust-based heatmap generator for non-git-based local & remote directories
 
 # Origin directory support
@@ -52,3 +50,7 @@ for some usecases. Tracked for future development (see [TDL](#To Do List)).
 # To Do List
 - [] Support for various outputs aside S3
 - [] Support `rclone sync` with persistant replicated storage
+
+# Rough Notes
+- can we do some iterated random sampling from a file to replace chucking
+  everything into a hash (which is not robust to file changes)
