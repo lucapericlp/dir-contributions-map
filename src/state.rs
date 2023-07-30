@@ -1,4 +1,4 @@
-use std::{path, fs::{self, OpenOptions}};
+use std::{path, fs::{self, OpenOptions}, io};
 use chrono;
 use serde;
 
@@ -40,14 +40,18 @@ impl StateFile {
         }
     }
 
-    pub fn touch(&self) -> () {
+    pub fn touch(&self) -> io::Result<()> {
         match self {
             StateFile::Local(path) => {
-                OpenOptions::new().create(true).write(true).open(path).unwrap();
+                let file = OpenOptions::new().create(true).write(true).open(path).unwrap();
+                let default: State = Default::default();
+                serde_json::to_writer_pretty(&file, &default);
+                Ok(())
             },
             // TODO: Remote impl
             StateFile::Remote(path) => {
                 OpenOptions::new().create(true).write(true).open(path).unwrap();
+                Ok(())
             }
         }
     }
