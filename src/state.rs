@@ -1,4 +1,4 @@
-use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap, HashMap}};
+use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap, HashMap}, ops::Add};
 use chrono;
 use serde;
 
@@ -17,15 +17,32 @@ impl Default for DateMetadata {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Default)]
+impl<'a> Add<&'a DateMetadata> for &mut DateMetadata {
+    type Output = ();
+
+    fn add(self, other: &'a DateMetadata) -> () {
+        self.updates += other.updates;
+        self.creations += other.creations;
+    }
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Default, Debug)]
 pub struct State {
     pub entries: BTreeMap<chrono::naive::NaiveDate, DateMetadata>
 }
 
 impl State {
+    // wanting to play around with mutability hence this impl
     pub fn update(
-        &self, discoveries: HashMap<chrono::naive::NaiveDate, DateMetadata>
+        &mut self,
+        discoveries: HashMap<chrono::naive::NaiveDate, DateMetadata>
     ) -> bool {
+        for (dtn, date_metadata) in discoveries {
+            self.entries.entry(dtn)
+                .and_modify(|metadata| { metadata.add(&date_metadata) })
+                .or_insert(date_metadata);
+        }
+        println!("After loop: {:?}", &self.entries);
         true
     }
 }

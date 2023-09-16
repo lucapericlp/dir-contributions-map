@@ -26,8 +26,9 @@ fn main() {
         .path().to_str().unwrap().to_string();
     rclone::defaults::copy(source, &rclone_dir).unwrap();
     // mutate entire state cos wgaf?
-    let day_stats = collect::get_recent_stats(&rclone_dir, consideration_window);
-    for (key, value) in day_stats.unwrap() {
-        println!("{} has {:?}", key, value)
-    }
+    let discoveries = collect::get_recent_stats(&rclone_dir, consideration_window).unwrap();
+    println!("Discoveries: {:?}", &discoveries);
+    println!("Before: {:?}", &entire_state);
+    entire_state.update(discoveries);
+    println!("After: {:?}", &entire_state);
 }
