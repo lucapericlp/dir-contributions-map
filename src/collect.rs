@@ -1,7 +1,6 @@
-use std::{fs, time::SystemTime, collections::HashMap};
+use std::collections::HashMap;
 
-use crate::state::{State, DateMetadata};
-use chrono::{NaiveDate, DateTime, Utc, NaiveDateTime};
+use crate::state::DateMetadata;
 use walkdir;
 
 fn is_relevant(
@@ -61,7 +60,7 @@ pub fn get_recent_stats(
                         // note: we shouldn't need to check again whether it was created or
                         // modified in the recency window, alas we move
                         if let Ok(created_time) = metadata.created() {
-                            let dt: DateTime<Utc> = created_time.into();
+                            let dt: chrono::DateTime<chrono::Utc> = created_time.into();
                             let dtn = dt.date_naive();
                             let elapsed_since = chrono::Duration::from_std(created_time.elapsed().unwrap());
                             if elapsed_since.unwrap() <= recency {
@@ -72,7 +71,7 @@ pub fn get_recent_stats(
                             continue
                         }
                         if let Ok(modified_time) = metadata.modified() {
-                            let dt: DateTime<Utc> = modified_time.into();
+                            let dt: chrono::DateTime<chrono::Utc> = modified_time.into();
                             let dtn = dt.date_naive();
                             let elapsed_since = chrono::Duration::from_std(modified_time.elapsed().unwrap());
                             if elapsed_since.unwrap() <= recency {

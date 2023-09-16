@@ -1,4 +1,4 @@
-use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap}};
+use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap, HashMap}};
 use chrono;
 use serde;
 
@@ -20,6 +20,14 @@ impl Default for DateMetadata {
 #[derive(serde::Serialize, serde::Deserialize, Default)]
 pub struct State {
     pub entries: BTreeMap<chrono::naive::NaiveDate, DateMetadata>
+}
+
+impl State {
+    pub fn update(
+        &self, discoveries: HashMap<chrono::naive::NaiveDate, DateMetadata>
+    ) -> bool {
+        true
+    }
 }
 
 pub fn determine_statefile(path: String) -> StateFile {

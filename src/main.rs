@@ -7,7 +7,9 @@ mod collect;
 fn main() {
     let user_state_file = "./state_file.json";
     let source = "lp-lucaperic:knowledge-garden/node_modules/";
-    // we assume we'll run this every day on some cron job
+    // we assume we'll run this, at maximum, once a day on some cron job
+    // make more resilient in future with some form of population identity
+    // per DateMetadata
     let consideration_window = chrono::Duration::days(1);
 
     let state_file = state::determine_statefile(user_state_file.to_string());
