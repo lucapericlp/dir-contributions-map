@@ -31,4 +31,5 @@ fn main() {
     println!("Before: {:?}", &entire_state);
     entire_state.update(discoveries);
     println!("After: {:?}", &entire_state);
+    entire_state.dump_to(state_file).unwrap();
 }

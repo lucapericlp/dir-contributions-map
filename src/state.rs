@@ -45,6 +45,23 @@ impl State {
         println!("After loop: {:?}", &self.entries);
         true
     }
+
+    pub fn dump_to(&self, state_file: StateFile) -> io::Result<()> {
+        match state_file {
+            StateFile::Local(path) => {
+                let file = OpenOptions::new().write(true).open(path).unwrap();
+                serde_json::to_writer_pretty(&file, &self)?;
+                Ok(())
+            },
+            // TODO: Remote impl
+            StateFile::Remote(path) => {
+                OpenOptions::new().create(true).write(true).open(path).unwrap();
+                Ok(())
+            }
+        }
+
+    }
+
 }
 
 pub fn determine_statefile(path: String) -> StateFile {
