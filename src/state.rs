@@ -2,13 +2,19 @@ use std::{path, fs::{self, OpenOptions}, io, collections::{BTreeMap}};
 use chrono;
 use serde;
 
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct DateMetadata {
     // store aggregate counters vs Vec<String> of files that
     // were either modified or created as we can't easily have unique
     // identifiers across file renames for files in the directory
     pub updates: i8,
     pub creations: i8
+}
+
+impl Default for DateMetadata {
+    fn default() -> Self {
+        DateMetadata { updates: 0, creations: 1 }
+    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Default)]
