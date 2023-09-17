@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+      - 'master'
+
+name: CI
+
+jobs:
+  build_and_run:
+    name: Rust project
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RUST_BACKTRACE: "1"
+      CI_COMMIT_AUTHOR: "Continuous Integration"
+      CI_COMMIT_MESSAGE: "Statefile update"
+    steps:
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - name: Compute latest statefile
+        uses: actions-rs/cargo@v1
+        with:
+          command: run
+
+      - name: Commit statefile
+      run: |
+        echo "Ran by ${GITHUB_ACTOR}..."
+        git_diff_output=$(git diff)
+        if [ -z "$git_diff_output" ]; then
+          echo "Statefile wasn't updated after all..."
+        else
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "username@users.noreply.github.com"
+          git add visualiser/src/state_file.json
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push
+        fi
