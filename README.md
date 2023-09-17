@@ -14,7 +14,7 @@ TODO: CLI interface here
 3. Done
 
 #### Scrappy? Huh?
-- No way of distinguishing whether a file's creation o$ modification is already
+- No way of distinguishing whether a file's creation or modification is already
   in the state file
 - Relying on a Netlify deployment to be live & re-deployed to serve component
 
