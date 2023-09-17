@@ -6,9 +6,8 @@ import data from './state_file.json';
 const values= []
 const map = data.entries
 Object.keys(map).forEach(key=> {
-  let updates = map[key].updates + map[key].creations
   let date_key = new Date(key);
-  values.push({date: date_key, count: updates});
+  values.push({date: date_key, count: map[key].updates});
 })
 
 var DISPLAY_MONTH_WINDOW = 3

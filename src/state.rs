@@ -8,12 +8,14 @@ pub struct DateMetadata {
     // were either modified or created as we can't easily have unique
     // identifiers across file renames for files in the directory
     pub updates: i32,
-    pub creations: i32
+    // struct for just one i32 for legacy reasons, I used to track creations
+    // until realising that rclone copy doesn't preserve creation metadata
+    // TODO: remove tech debt :sweat:
 }
 
 impl Default for DateMetadata {
     fn default() -> Self {
-        DateMetadata { updates: 0, creations: 1 }
+        DateMetadata { updates: 1 }
     }
 }
 
@@ -22,7 +24,6 @@ impl<'a> Add<&'a DateMetadata> for &mut DateMetadata {
 
     fn add(self, other: &'a DateMetadata) -> () {
         self.updates += other.updates;
-        self.creations += other.creations;
     }
 }
 
