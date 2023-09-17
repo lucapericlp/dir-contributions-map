@@ -7,8 +7,8 @@ pub struct DateMetadata {
     // store aggregate counters vs Vec<String> of files that
     // were either modified or created as we can't easily have unique
     // identifiers across file renames for files in the directory
-    pub updates: i8,
-    pub creations: i8
+    pub updates: i32,
+    pub creations: i32
 }
 
 impl Default for DateMetadata {

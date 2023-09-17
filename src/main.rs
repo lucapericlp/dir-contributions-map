@@ -5,8 +5,9 @@ mod state;
 mod collect;
 
 fn main() {
-    let user_state_file = "./state_file.json";
-    let source = "lp-lucaperic:knowledge-garden/node_modules/";
+    // requires rclone remote to be set up already, see set up instructions
+    let user_state_file = "./visualiser/src/state_file.json";
+    let source = "lp-lucaperic:knowledge-garden/";
     // we assume we'll run this, at maximum, once a day on some cron job
     // make more resilient in future with some form of population identity
     // per DateMetadata
