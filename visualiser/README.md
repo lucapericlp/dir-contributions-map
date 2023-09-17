@@ -1,2 +1,4 @@
-This won't work if you don't have chrome installed... after that all you need to
-do is `npm install && npm build`
+Note to self:
+
+This doesn't work on Pop OS machine for some reason, works on the macbook:
+- `npm install && npm build`
