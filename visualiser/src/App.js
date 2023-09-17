@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import HeatMap from '@uiw/react-heat-map';
+import data from './state_file.json';
 
-const value = [
-  { date: '2016/01/11', count: 2 },
-  { date: '2016/01/12', count: 20 },
-  { date: '2016/01/13', count: 10 },
-  ...[...Array(17)].map((_, idx) => ({ date: `2016/02/${idx + 10}`, count: idx, content: '' })),
-  { date: '2016/04/11', count: 2 },
-  { date: '2016/05/01', count: 5 },
-  { date: '2016/05/02', count: 5 },
-  { date: '2016/05/04', count: 11 },
-];
+const values= []
+const map = data.entries
+Object.keys(map).forEach(key=> {
+  let updates = map[key].updates + map[key].creations
+  let date_key = new Date(key);
+  values.push({date: date_key, count: updates});
+})
+
+var DISPLAY_MONTH_WINDOW = 3
+var dateObj = new Date();
+dateObj.setMonth(dateObj.getMonth() - DISPLAY_MONTH_WINDOW);
 
 function App() {
   return (
     <div>
       <HeatMap
-        value={value}
+        value={values}
         weekLabels={['', 'Mon', '', 'Wed', '', 'Fri', '']}
-        startDate={new Date('2016/01/01')}
+        startDate={dateObj}
+        endDate={new Date()}
       />
     </div>
   )
