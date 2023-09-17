@@ -5,11 +5,6 @@ Anything supported by `rclone`!
 
 # Usage
 
-TODO: NOTE TO SELF
-**URGENT**
-rclone doesn't preserve the creation date so we can't rely on that... only
-modification :sweat:
-
 ## Manual invocation
 TODO: CLI interface here
 
