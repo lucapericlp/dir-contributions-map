@@ -8,10 +8,22 @@ Anything supported by `rclone`!
 TODO: CLI interface here
 
 ## Serving mode
-Want to have this done automatically for you?
+### Scrappier mode
+1. Cron that runs & adds state file to git repo under `visualiser/src/state_file.json`
+2. Netlify CD job
+3. Done
+
+#### Scrappy? Huh?
+- No way of distinguishing whether a file's creation o$ modification is already
+  in the state file
+- Relying on a Netlify deployment to be live & re-deployed to serve component
+
+### Proper mode
 - Spin up infra
     - Lambda to run on a cron schedule
-    - S3 bucket for serving
+    - S3 bucket for serving via `react-snap` to compile static HTML
+- Have state file better track files rather than just counts (that could lead to
+  inaccuracies)
 
 # Implementation
 ## Notes
