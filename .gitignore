@@ -1,2 +1,5 @@
 /target
 state_file.json
+
+# Local Netlify folder
+.netlify
