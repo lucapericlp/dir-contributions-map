@@ -28,16 +28,17 @@ jobs:
         run: |
           pwd && ls
 
+      - name: Setup Rclone
+        uses: AnimMouse/setup-rclone@v1
+        with:
+          rclone_config: ${{ secrets.RCLONE_CONFIG }}
+        run: |
+          rclone config dump | jq '.["lp-lucaperic"]["type"]'
+
       - name: Build
         uses: actions-rs/cargo@v1
         with:
           command: build
-
-      - name: Check
-        run: |
-          config_path=$(rclone config file | tail -n 1)
-          echo $RCLONE_CONFIG >> $config_path
-          rclone config dump | jq '.["lp-lucaperic"]["type"]'
 
       - name: Compute latest statefile
         uses: actions-rs/cargo@v1
