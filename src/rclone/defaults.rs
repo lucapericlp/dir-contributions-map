@@ -12,17 +12,6 @@ pub fn run(method: &str, input: &str) -> Result<String, String>{
     librclone::rpc(method, input)
 }
 
-pub fn list() -> Result<String, String>{
-    let method = String::from("operations/list");
-    let input = serde_json::json!(
-        {
-            "fs": "lp-lucaperic:",
-            "remote": "knowledge-garden"
-        }
-    );
-    run(&method, &input.to_string())
-}
-
 pub fn copy(src: &str, dst: &str) -> Result<String, String>{
     let method = String::from("sync/copy");
     let input = serde_json::json!(
