@@ -10,6 +10,7 @@ jobs:
     name: Rust project
     runs-on: ubuntu-latest
     env:
+      RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RUST_BACKTRACE: "1"
       CI_COMMIT_AUTHOR: "Continuous Integration"
@@ -22,13 +23,21 @@ jobs:
           toolchain: stable
 
       - uses: Swatinem/rust-cache@v2
+
       - name: Check
         run: |
           pwd && ls
+
       - name: Build
         uses: actions-rs/cargo@v1
         with:
           command: build
+
+      - name: Check
+        run: |
+          config_path=$(rclone config file | tail -n 1)
+          echo $RCLONE_CONFIG >> $config_path
+          rclone config dump | jq '.["lp-lucaperic"]["type"]'
 
       - name: Compute latest statefile
         uses: actions-rs/cargo@v1
