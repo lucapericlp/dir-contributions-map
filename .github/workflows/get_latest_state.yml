@@ -15,17 +15,16 @@ jobs:
       CI_COMMIT_AUTHOR: "Continuous Integration"
       CI_COMMIT_MESSAGE: "Statefile update"
     steps:
+      - uses: actions/checkout@v2
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
 
       - uses: Swatinem/rust-cache@v2
-
       - name: Check
         run: |
           pwd && ls
-
       - name: Build
         uses: actions-rs/cargo@v1
         with:
