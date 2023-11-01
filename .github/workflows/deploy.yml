@@ -1,19 +1,24 @@
-# name: 'Netlify Deploy'
+name: "Netlify Deploy"
 
-# on:
-#   release:
-#     types: ['published']
+on:
+  push:
+    branches:
+      - 'master'
 
-# jobs:
-#   deploy:
-#     name: 'Deploy'
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: jsmrcaga/action-netlify-deploy@master
-#         with:
-#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-#           NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
-#           NETLIFY_DEPLOY_TO_PROD: true
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit.message == 'Statefile update' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Build frontend
+        run: |
+          cd visualiser/ && npm install && npm run build
+      - uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
+          NETLIFY_DEPLOY_TO_PROD: true
