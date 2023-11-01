@@ -22,6 +22,10 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
+      - name: Check
+        run: |
+          pwd && ls
+
       - name: Build
         uses: actions-rs/cargo@v1
         with:
