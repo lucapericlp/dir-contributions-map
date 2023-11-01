@@ -19,6 +19,10 @@ TODO: CLI interface here
   in the state file
 - Relying on a Netlify deployment to be live & re-deployed to serve component
 
+#### CI Setup
+- `base64 -w 0 sample.conf | pbcopy` where sample.conf contains the remote
+  config to be used, this should then be placed in a repo secret `$RCLONE_CONFIG`
+
 ### Proper mode
 - Spin up infra
     - Lambda to run on a cron schedule
