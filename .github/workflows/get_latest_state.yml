@@ -32,6 +32,8 @@ jobs:
         uses: AnimMouse/setup-rclone@v1
         with:
           rclone_config: ${{ secrets.RCLONE_CONFIG }}
+
+      - name: Check
         run: |
           rclone config dump | jq '.["lp-lucaperic"]["type"]'
 
