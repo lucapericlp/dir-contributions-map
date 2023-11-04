@@ -10,12 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RUST_BACKTRACE: "1"
       CI_COMMIT_AUTHOR: "Continuous Integration"
       CI_COMMIT_MESSAGE: "Statefile update"
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CD_GIT_TOKEN }}
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:

@@ -7,7 +7,6 @@ jobs:
   add-debug-commit:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI_COMMIT_AUTHOR: "Continuous Integration"
       CI_COMMIT_MESSAGE: "Statefile update"
     steps:
