@@ -1,3 +1,5 @@
+[![Netlify Deploy](https://github.com/lucapericlp/dir-contributions-map/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/lucapericlp/dir-contributions-map/actions/workflows/deploy.yml)
+
 A Github-like, Rust-based heatmap generator for non-git-based local & remote directories
 
 # Origin directory support
