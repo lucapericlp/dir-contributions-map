@@ -11,6 +11,7 @@ jobs:
       CI_COMMIT_AUTHOR: "Continuous Integration"
       CI_COMMIT_MESSAGE: "Statefile update"
     steps:
+      - uses: actions/checkout@v2
       - run: |
           echo "Working hard..."
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
