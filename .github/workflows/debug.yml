@@ -12,6 +12,8 @@ jobs:
       CI_COMMIT_MESSAGE: "Statefile update"
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CD_GIT_TOKEN }}
       - run: |
           echo "honestwork" >> .gitignore
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
